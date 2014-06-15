@@ -1,0 +1,28 @@
+---
+
+- name: add fkrull python 3.3 ppa
+  apt_repository: repo='ppa:fkrull/deadsnakes'
+
+- name: install python 3.3 and other requirements
+  apt: package={{item}} state=present
+  with_items:
+    - python3.3
+    - xsel
+    - python3.3-dev
+
+- name: Install build-deps for python-crypto
+  shell: apt-get -y build-dep python3-crypto
+
+- name: checkout keepassc required repos
+  git: >
+    repo=https://github.com/{{item.user}}/{{item.name}}.git
+    dest=~/opt/{{item.name}}
+    version={{item.version}}
+  with_items: keepassc_github_repos
+
+- name: Run setup.py install for required
+  shell: chdir=~/opt/{{item.name}} python3.3 setup.py install
+  with_items: keepassc_github_repos
+
+- name: Create /var/empty
+  file: path=/var/empty owner=root group=root mode=0755 state=directory

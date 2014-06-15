@@ -1,0 +1,6 @@
+---
+
+keepassc_github_repos:
+  - { name: kppy, user: raymontag,  version: 1.4.0 }
+  - { name: pycrypto, user: dlitz, version: v2.6.1 }
+  - { name: keepassc, user: raymontag, version: 1.6.2 }
